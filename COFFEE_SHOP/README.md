@@ -1,5 +1,9 @@
 # Coffee Shop Digital Menu ☕
 
+<div align="center">
+  <img src="https://media.tenor.com/pN36RDwHQSoAAAAi/tuesday-hamster.gif" height="200" />
+</div>
+
 A beautiful, welcoming digital menu frontend interface built for **The Coffee Bistro**—a cozy corner crafted explicitly for coffee lovers. 
 
 The layout focuses heavily on high-quality visuals, an intuitive grid layout, and aesthetic design to present premium beverages as appealingly as possible. The menu specifically highlights a curated grid including Caffe Americano, Cold Coffee, Caffe Latte, Caramel Macchiato, Mocha, Matcha Tea Latte, and Caramel Frappuccino.
