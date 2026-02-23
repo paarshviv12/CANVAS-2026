@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2026 Pink Canvas</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
+
+  #startScreen {
+    position: fixed;
+    inset: 0;
+    background: url("https://media1.tenor.com/m/ZfJe_QtA5HEAAAAd/goodolddays-nostalgia.gif") no-repeat center center;
+    background-size: cover;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  #startBtn {
+    padding: 16px 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3e3c3d, #1b1a1a);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+  }
+
+  #startBtn:hover {
+    transform: scale(1.05);
+  }
+
+  #mainScene {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url("https://media1.tenor.com/m/UcZ-W_KJ_mkAAAAC/starry-night.gif") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  canvas {
+    background: radial-gradient(circle at top, #3c9bcf, #266ec7);
+    box-shadow: 0 20px 40px rgba(120, 105, 255, 0.4);
+    border-radius: 20px;
+  }
+</style>
+</head>
+
+<body>
+<div id="startScreen">
+  <button id="startBtn">START</button>
+</div>
+
+<div id="mainScene">
+  <audio id="bgMusic" loop>
+    <source src="where_all_the_time_go.mp3" type="audio/mpeg">
+  </audio>
+
+  <canvas id="canvas" width="600" height="350"></canvas>
+</div>
+
+<script>
+  const startBtn = document.getElementById("startBtn");
+  const startScreen = document.getElementById("startScreen");
+  const mainScene = document.getElementById("mainScene");
+  const music = document.getElementById("bgMusic");
+
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  let textY = 180;
+  let direction = 1;
+
+  const bubbles = Array.from({ length: 12 }, () => ({
+    x: Math.random() * canvas.width,
+    y: canvas.height + Math.random() * 200,
+    radius: Math.random() * 8 + 4,
+    speed: Math.random() * 0.6 + 0.3
+  }));
+
+  function drawBackground() {
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, "#3c9bcf");
+    gradient.addColorStop(1, "#266ec7");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawText() {
+    ctx.textAlign = "center";
+    ctx.shadowColor = "rgba(255, 20, 147, 0.5)";
+    ctx.shadowBlur = 14;
+
+    ctx.font = "700 34px 'Playfair Display'";
+    ctx.fillStyle = "#b3005e";
+    ctx.fillText("Welcome to 2026 💖", canvas.width / 2, textY);
+
+    ctx.font = "300 18px 'Poppins'";
+    ctx.fillText("Where did all the time go?", canvas.width / 2, textY + 42);
+
+    ctx.shadowBlur = 0;
+  }
+
+  function drawBubbles() {
+    bubbles.forEach(bubble => {
+      ctx.beginPath();
+      ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+      ctx.fill();
+
+      bubble.y -= bubble.speed;
+
+      if (bubble.y < -10) {
+        bubble.y = canvas.height + 20;
+        bubble.x = Math.random() * canvas.width;
+      }
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
+    drawBubbles();
+    drawText();
+
+    textY += 0.3 * direction;
+    if (textY > 185 || textY < 170) direction *= -1;
+
+    requestAnimationFrame(animate);
+  }
+
+  startBtn.addEventListener("click", () => {
+    startScreen.style.display = "none";
+    mainScene.style.display = "flex";
+    music.play();   
+    animate();   
+  });
+</script>
+
+</body>
+</html>
